@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Add the GVM repository
+echo "deb http://ppa.launchpad.net/mikesplain/gvm/ubuntu focal main" | sudo tee /etc/apt/sources.list.d/gvm.list
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F76221572C52609D
+sudo apt-get update
+
+# Install GVM
+sudo apt-get install -y gvm
+
+# Create a new admin user
+gvmd --create-user=admin --role=Admin
+
+# Start the GVM services
+sudo systemctl start gvm-scanner
+sudo systemctl start gvm-manager
+sudo systemctl start gvm-feed-updater
+
+# Update the NVT and SCAP data
+gvm-feed-update
